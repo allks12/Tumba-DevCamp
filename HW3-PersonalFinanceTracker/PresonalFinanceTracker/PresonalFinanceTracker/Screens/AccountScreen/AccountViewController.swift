@@ -161,7 +161,6 @@ extension AccountViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView,
                     didSelectRow row: Int,
                     inComponent component: Int) {
-            let selected = AccountType.allCases[row]
-        selectedType = selected
-        }
+        selectedType = AccountType.allCases[row]
+    }
 }

@@ -27,9 +27,10 @@ struct Expense: Codable {
     var name: String
     var type: ExpenseType
     var amount: Double
+    var date: Date = .now
 }
 
-enum ExpenseType: String, Codable {
+enum ExpenseType: String, CaseIterable, Codable {
     case groceries = "Groceries"
     case health = "Health"
     case education = "Education"

@@ -11,6 +11,9 @@
 		844EA7E72A8D174400D0FA5A /* UserAuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844EA7E62A8D174400D0FA5A /* UserAuthenticationViewModel.swift */; };
 		845DCF252A9354C000F8ED79 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845DCF242A9354C000F8ED79 /* AccountViewModel.swift */; };
 		846B8DC12A9BDD8900FA4F2D /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B8DC02A9BDD8900FA4F2D /* AccountTableViewCell.swift */; };
+		846B8DC62A9BE99A00FA4F2D /* CreeateExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B8DC52A9BE99A00FA4F2D /* CreeateExpenseViewController.swift */; };
+		846B8DC82A9BE9C500FA4F2D /* CreateExpenseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B8DC72A9BE9C500FA4F2D /* CreateExpenseCoordinator.swift */; };
+		846B8DCA2A9BF13D00FA4F2D /* ExpenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B8DC92A9BF13D00FA4F2D /* ExpenseTableViewCell.swift */; };
 		8472F6502A84CC7400E381C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8472F64F2A84CC7400E381C2 /* AppDelegate.swift */; };
 		8472F6522A84CC7400E381C2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8472F6512A84CC7400E381C2 /* SceneDelegate.swift */; };
 		8472F6542A84CC7400E381C2 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8472F6532A84CC7400E381C2 /* MainViewController.swift */; };
@@ -37,6 +40,9 @@
 		844EA7E62A8D174400D0FA5A /* UserAuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthenticationViewModel.swift; sourceTree = "<group>"; };
 		845DCF242A9354C000F8ED79 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		846B8DC02A9BDD8900FA4F2D /* AccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
+		846B8DC52A9BE99A00FA4F2D /* CreeateExpenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreeateExpenseViewController.swift; sourceTree = "<group>"; };
+		846B8DC72A9BE9C500FA4F2D /* CreateExpenseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExpenseCoordinator.swift; sourceTree = "<group>"; };
+		846B8DC92A9BF13D00FA4F2D /* ExpenseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTableViewCell.swift; sourceTree = "<group>"; };
 		8472F64C2A84CC7400E381C2 /* PresonalFinanceTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PresonalFinanceTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8472F64F2A84CC7400E381C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8472F6512A84CC7400E381C2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,8 +82,18 @@
 			children = (
 				844EA7E42A8A267500D0FA5A /* RoundedValidatedTextField.swift */,
 				846B8DC02A9BDD8900FA4F2D /* AccountTableViewCell.swift */,
+				846B8DC92A9BF13D00FA4F2D /* ExpenseTableViewCell.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		846B8DC22A9BE8DE00FA4F2D /* CreateExpenseScreen */ = {
+			isa = PBXGroup;
+			children = (
+				846B8DC52A9BE99A00FA4F2D /* CreeateExpenseViewController.swift */,
+				846B8DC72A9BE9C500FA4F2D /* CreateExpenseCoordinator.swift */,
+			);
+			path = CreateExpenseScreen;
 			sourceTree = "<group>";
 		};
 		8472F6432A84CC7400E381C2 = {
@@ -119,6 +135,7 @@
 				84BC14912A8921C700CF4808 /* RegistrationScreen */,
 				8472F6652A84D51E00E381C2 /* LoginScreen */,
 				84BC14962A89684A00CF4808 /* AccountScreen */,
+				846B8DC22A9BE8DE00FA4F2D /* CreateExpenseScreen */,
 				84B5697D2A9BD04A00E80973 /* AccountDetailsScreen */,
 			);
 			path = Screens;
@@ -260,6 +277,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				846B8DCA2A9BF13D00FA4F2D /* ExpenseTableViewCell.swift in Sources */,
 				8472F6672A84D54C00E381C2 /* LoginViewController.swift in Sources */,
 				84B569812A9BD0E000E80973 /* AccountDetailsCoordinator.swift in Sources */,
 				84BC14872A8907D700CF4808 /* BaseCoordinator.swift in Sources */,
@@ -268,6 +286,7 @@
 				84BC14952A89222500CF4808 /* RegistrationViewController.swift in Sources */,
 				84BC149C2A8969A200CF4808 /* AccountCoordinator.swift in Sources */,
 				84BC14932A8921EB00CF4808 /* RegistrationCoordinator.swift in Sources */,
+				846B8DC82A9BE9C500FA4F2D /* CreateExpenseCoordinator.swift in Sources */,
 				84BC14852A89063300CF4808 /* Coordinator.swift in Sources */,
 				844EA7E52A8A267500D0FA5A /* RoundedValidatedTextField.swift in Sources */,
 				8472F6502A84CC7400E381C2 /* AppDelegate.swift in Sources */,
@@ -277,6 +296,7 @@
 				84BC148D2A89146600CF4808 /* LoginCoordinator.swift in Sources */,
 				844EA7E72A8D174400D0FA5A /* UserAuthenticationViewModel.swift in Sources */,
 				84BC14892A8908B700CF4808 /* AppCoordinator.swift in Sources */,
+				846B8DC62A9BE99A00FA4F2D /* CreeateExpenseViewController.swift in Sources */,
 				84B5697C2A9B784500E80973 /* UserManager.swift in Sources */,
 				846B8DC12A9BDD8900FA4F2D /* AccountTableViewCell.swift in Sources */,
 				845DCF252A9354C000F8ED79 /* AccountViewModel.swift in Sources */,

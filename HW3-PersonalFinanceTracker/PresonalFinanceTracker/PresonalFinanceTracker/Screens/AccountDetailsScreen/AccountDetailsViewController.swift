@@ -23,11 +23,26 @@ class AccountDetailsViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
+        setUpBarButtons()
         setUpTableView()
+    }
+
+    private func setUpBarButtons() {
+        let addExpenseAction = UIAction(title: "Add Expense", handler: didTapAddExpense)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(primaryAction: addExpenseAction)
+    }
+
+    private func didTapAddExpense(_ action: UIAction) {
+        coordinator.navigateToExpenseAddition(for: accountIndex)
     }
 
     private func setUpTableView() {
@@ -39,7 +54,7 @@ class AccountDetailsViewController: UIViewController {
     private func configureTableView() {
         let tableView = UITableView(frame: view.bounds, style: .insetGrouped)
 
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdetifier)
+        tableView.register(ExpenseTableViewCell.self, forCellReuseIdentifier: cellIdetifier)
         tableView.dataSource = self
         tableView.delegate = self
         self.tableView = tableView
@@ -65,11 +80,12 @@ extension AccountDetailsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let expense = UserManager.shared.currentUser?.accounts[accountIndex].expenses[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdetifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdetifier, for: indexPath) as! ExpenseTableViewCell
 
-        var content = cell.defaultContentConfiguration()
-        content.text = expense?.name
-        cell.contentConfiguration = content
+        cell.name.text = expense?.name
+        cell.amount.text = "\(expense?.amount ?? 0)"
+        cell.type.text = expense?.type.rawValue
+        cell.date.text = expense?.date.formatted(date: .numeric, time: .standard)
 
         return cell
     }

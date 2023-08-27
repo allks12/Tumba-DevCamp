@@ -13,6 +13,8 @@ class AccountDetailsViewController: UIViewController {
     let accountIndex: Int
     var tableView: UITableView!
 
+    private var categories: [ExpenseType] = ExpenseType.allCases
+
     init(for accountIndex: Int,
          coordinator: AccountDetailsCoordinator) {
         self.accountIndex = accountIndex
@@ -33,6 +35,7 @@ class AccountDetailsViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
         setUpBarButtons()
+        setUpSearchBar()
         setUpTableView()
     }
 
@@ -49,6 +52,11 @@ class AccountDetailsViewController: UIViewController {
         configureTableView()
         view.addSubview(tableView)
         addTableViewConstraints()
+    }
+
+    private func setUpSearchBar() {
+        navigationItem.searchController = UISearchController(searchResultsController: nil)
+        navigationItem.searchController?.searchBar.delegate = self
     }
 
     private func configureTableView() {
@@ -75,11 +83,15 @@ class AccountDetailsViewController: UIViewController {
 
 extension AccountDetailsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        UserManager.shared.currentUser?.accounts[accountIndex].expenses.count ?? 0
+        UserManager.shared.currentUser?.accounts[accountIndex].expenses.filter { expense in
+            categories.contains(expense.type)
+        }.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let expense = UserManager.shared.currentUser?.accounts[accountIndex].expenses[indexPath.row]
+        let expense = UserManager.shared.currentUser?.accounts[accountIndex].expenses.filter { expense in
+            categories.contains(expense.type)
+        }[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdetifier, for: indexPath) as! ExpenseTableViewCell
 
         cell.name.text = expense?.name
@@ -99,10 +111,31 @@ extension AccountDetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            UserManager.shared.currentUser?.accounts[self.accountIndex].expenses.remove(at: indexPath.row)
+            let expenseToRemove = UserManager.shared.currentUser?.accounts[self.accountIndex].expenses.filter { expense in
+                self.categories.contains(expense.type)
+            }[indexPath.row]
+            guard let expenseIndex = UserManager.shared.currentUser?.accounts[self.accountIndex].expenses.firstIndex(where: {
+                $0 == expenseToRemove
+            }) else {
+                return
+            }
+            UserManager.shared.currentUser?.accounts[self.accountIndex].expenses.remove(at: expenseIndex)
             tableView.deleteRows(at: [indexPath], with: .left)
         }
         delete.image = UIImage(systemName: "trash")
         return UISwipeActionsConfiguration(actions: [delete])
+    }
+}
+
+extension AccountDetailsViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            categories = ExpenseType.allCases
+        } else {
+            categories = ExpenseType.allCases.filter {
+                $0.rawValue.lowercased().contains(searchText.lowercased())
+            }
+        }
+        tableView.reloadData()
     }
 }

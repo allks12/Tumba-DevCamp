@@ -23,7 +23,7 @@ struct Account: Codable {
     }
 }
 
-struct Expense: Codable {
+struct Expense: Codable, Equatable {
     var name: String
     var type: ExpenseType
     var amount: Double

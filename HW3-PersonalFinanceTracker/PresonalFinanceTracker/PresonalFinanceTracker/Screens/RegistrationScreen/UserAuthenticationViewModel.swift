@@ -42,7 +42,7 @@ class UserAuthenticationViewModel {
                   passwordField: RoundedValidatedTextField,
                   confirmPasswordField: RoundedValidatedTextField) -> User? {
         var success = true
-        var user = User(firstName: "", lastName: "", email: "", password: "")
+        var user = User(firstName: "", lastName: "", email: "", password: "", accounts: [])
         
         let firstName = checkIfNameInputIsValid(nameField: firstNameField)
         if firstName == nil {
@@ -99,7 +99,7 @@ class UserAuthenticationViewModel {
     private func validateLoginInput(_ emailField: RoundedValidatedTextField,
                _ passwordField: RoundedValidatedTextField) -> User? {
         var success = true
-        var loggedUser = User(firstName: "", lastName: "", email: "", password: "")
+        var loggedUser = User(firstName: "", lastName: "", email: "", password: "", accounts: [])
         
         let email = checkIfEmailInputIsValid(emailField: emailField)
         if email == nil {
@@ -123,22 +123,9 @@ class UserAuthenticationViewModel {
     }
     
     private func checkIfDesiredUserInExists(desiredUser: User) -> User? {
-        guard let users:[[String : String]] = UserDefaults.standard.object(forKey: "users") as? [[String : String]] else {
-            return nil
+        return UserManager.shared.users.first {
+            $0.email == desiredUser.email
         }
-        
-        let loggedUser = users.first { user in
-            user["email"] == desiredUser.email && user["password"] == desiredUser.password
-        }
-        
-        guard let user = loggedUser else {
-            return nil
-        }
-        
-        return User(firstName: user["firstName"]!,
-                    lastName: user["lastName"] ?? "not-entered",
-                    email: user["email"]!,
-                    password: user["password"]!)
     }
     
     private func checkIfNameInputIsValid(nameField: RoundedValidatedTextField) -> String?{

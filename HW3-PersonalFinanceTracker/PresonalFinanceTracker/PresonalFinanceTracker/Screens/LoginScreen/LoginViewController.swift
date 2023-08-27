@@ -7,19 +7,13 @@
 
 import UIKit
 
-protocol LoginDelegate: AnyObject {
-    func logUserIn(_ user: User)
-}
-
 class LoginViewController: UIViewController {
-    
-    weak var delegate: LoginDelegate?
+
     private let coordinator: LoginCoordinator
     private let viewModel = UserAuthenticationViewModel()
     
-    init(coordinator: LoginCoordinator, delegate: LoginDelegate?) {
+    init(coordinator: LoginCoordinator) {
         self.coordinator = coordinator
-        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -130,8 +124,7 @@ class LoginViewController: UIViewController {
                                                 unexistingUserLabel: unexistingUserLabel) else {
             return
         }
-        
-        delegate?.logUserIn(currentUser)
+        UserManager.shared.currentUser = currentUser
         dismiss(animated: true)
     }
 

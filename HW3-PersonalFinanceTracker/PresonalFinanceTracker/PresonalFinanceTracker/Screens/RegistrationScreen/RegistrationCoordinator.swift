@@ -9,19 +9,9 @@ import Foundation
 import UIKit
 
 class RegistrationCoordinator: BaseCoordinator {
-    var registrationDelegate: RegistrationDelegate
-    
-    init(parentCoordinator: Coordinator,
-        navigationController: UINavigationController,
-        registrationDelegate: RegistrationDelegate) {
-        self.registrationDelegate = registrationDelegate
-        super.init(parentCoordinator: parentCoordinator,
-                   navigationController: navigationController)
-    }
     
     override func start() {
-        let registrationVC = RegistrationViewController(coordinator: self,
-                                                        delegate: registrationDelegate)
+        let registrationVC = RegistrationViewController(coordinator: self)
         let navController = UINavigationController(rootViewController: registrationVC)
         navController.modalPresentationStyle = .fullScreen
         navigationController.present(navController, animated: true)

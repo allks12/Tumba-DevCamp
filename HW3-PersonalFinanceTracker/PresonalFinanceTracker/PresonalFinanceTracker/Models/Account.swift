@@ -15,7 +15,7 @@ struct Account: Codable {
 }
 
 enum AccountType: String, CaseIterable, Codable {
-        case debit = "Debit"
-        case credit = "Credit"
-        case wallet = "Wallet"
+    case debit = "Debit"
+    case credit = "Credit"
+    case wallet = "Wallet"
 }

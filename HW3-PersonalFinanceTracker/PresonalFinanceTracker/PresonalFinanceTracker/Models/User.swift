@@ -13,4 +13,5 @@ struct User: Codable {
     var lastName: String
     var email: String
     var password: String
+    var accounts: [Account] = []
 }

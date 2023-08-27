@@ -9,19 +9,9 @@ import Foundation
 import UIKit
 
 class LoginCoordinator: BaseCoordinator {
-    var loginDelegate: LoginDelegate
-    
-    init(parentCoordinator: Coordinator,
-                  navigationController: UINavigationController,
-                  loginDelegate: LoginDelegate) {
-        self.loginDelegate = loginDelegate
-        super.init(parentCoordinator: parentCoordinator,
-                   navigationController: navigationController)
-    }
-    
+
     override func start() {
-        let loginVC = LoginViewController(coordinator: self,
-                                          delegate: loginDelegate)
+        let loginVC = LoginViewController(coordinator: self)
         let navController = UINavigationController(rootViewController: loginVC)
         navController.modalPresentationStyle = .fullScreen
         navigationController.present(navController, animated: true)

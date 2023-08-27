@@ -7,19 +7,13 @@
 
 import UIKit
 
-protocol AccountDelegate: AnyObject {
-    func saveNewAccount(_ account: Account)
-}
-
 class AccountViewController: UIViewController {
     private let coordinator: AccountCoordinator
     private let viewModel = AccountViewModel()
     private var selectedType: AccountType?
-    weak var delegate: AccountDelegate?
     
-    init(coordinator: AccountCoordinator, delegate: AccountDelegate) {
+    init(coordinator: AccountCoordinator) {
         self.coordinator = coordinator
-        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -140,7 +134,7 @@ class AccountViewController: UIViewController {
             return
         }
         
-        delegate?.saveNewAccount(newAccount)
+        UserManager.shared.currentUser?.accounts.append(newAccount)
         dismiss(animated: true)
     }
     

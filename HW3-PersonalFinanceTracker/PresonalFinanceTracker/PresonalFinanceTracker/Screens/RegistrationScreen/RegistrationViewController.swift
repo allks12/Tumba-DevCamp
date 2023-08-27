@@ -7,20 +7,13 @@
 
 import UIKit
 
-protocol RegistrationDelegate: AnyObject {
-    func saveCurrentUser(registeredUser: User)
-}
-
 class RegistrationViewController: UIViewController {
     private let coordinator: RegistrationCoordinator
     private let viewModel = UserAuthenticationViewModel()
     private var textFields: [RoundedValidatedTextField] = []
-    weak var delegate: RegistrationDelegate?
-    
-    init(coordinator: RegistrationCoordinator,
-         delegate: RegistrationDelegate) {
+
+    init(coordinator: RegistrationCoordinator) {
         self.coordinator = coordinator
-        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -139,7 +132,7 @@ class RegistrationViewController: UIViewController {
         submitButton.addAction(submitAction, for: .touchUpInside)
     }
     
-    private func didTapSubmit(_ action: UIAction) {
+    func didTapSubmit(_ action: UIAction) {
         guard let user = viewModel.register(firstNameField: firstNameTextField,
                                             lastNameField: lastNameTextField,
                                             emailField: emailTextField,
@@ -147,53 +140,7 @@ class RegistrationViewController: UIViewController {
                                             confirmPasswordField: confirmPasswordTextField) else {
             return
         }
-        
-        saveUsersInDefaults(firstName: user.firstName,
-                            lastName: user.lastName,
-                            email: user.email,
-                            password: user.password)
-        
-        delegate?.saveCurrentUser(registeredUser: user)
-        
+        UserManager.shared.currentUser = user
         dismiss(animated: true)
-        
-    }
-    
-    private func saveUsersInDefaults(firstName: String,
-                                           lastName: String,
-                                           email: String,
-                                           password: String) {
-        
-        let user = ["firstName": firstName,
-                    "lastName": lastName,
-                    "email": email,
-                    "password": password]
-        
-        guard var users:[[String: String]] = UserDefaults.standard.object(forKey: "users") as? [[String : String]] else {
-            UserDefaults.standard.set([user], forKey: "users")
-            saveCurrentUser(firstName: firstName,
-                            lastName: lastName,
-                            email: email,
-                            password: password)
-            return
-        }
-        
-        users.append(user)
-        
-        UserDefaults.standard.set(users, forKey: "users")
-        saveCurrentUser(firstName: firstName,
-                        lastName: lastName,
-                        email: email,
-                        password: password)
-    }
-    
-    private func saveCurrentUser(firstName: String,
-                                 lastName: String,
-                                 email: String,
-                                 password: String) {
-        UserDefaults.standard.set(firstName, forKey: "firstName")
-        UserDefaults.standard.set(lastName, forKey: "lastName")
-        UserDefaults.standard.set(email, forKey: "email")
-        UserDefaults.standard.set(password, forKey: "password")
     }
 }

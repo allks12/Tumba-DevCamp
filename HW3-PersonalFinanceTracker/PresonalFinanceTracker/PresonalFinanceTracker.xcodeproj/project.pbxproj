@@ -101,7 +101,6 @@
 				8472F6582A84CC7700E381C2 /* Assets.xcassets */,
 				8472F65A2A84CC7700E381C2 /* LaunchScreen.storyboard */,
 				8472F65D2A84CC7700E381C2 /* Info.plist */,
-				84B5697B2A9B784500E80973 /* UserManager.swift */,
 			);
 			path = PresonalFinanceTracker;
 			sourceTree = "<group>";
@@ -109,10 +108,10 @@
 		8472F6632A84D05700E381C2 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				84BC14962A89684A00CF4808 /* AccountScreen */,
+				8472F6642A84D06500E381C2 /* MainScreen */,
 				84BC14912A8921C700CF4808 /* RegistrationScreen */,
 				8472F6652A84D51E00E381C2 /* LoginScreen */,
-				8472F6642A84D06500E381C2 /* MainScreen */,
+				84BC14962A89684A00CF4808 /* AccountScreen */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -129,8 +128,8 @@
 		8472F6652A84D51E00E381C2 /* LoginScreen */ = {
 			isa = PBXGroup;
 			children = (
-				8472F6662A84D54C00E381C2 /* LoginViewController.swift */,
 				84BC148C2A89146600CF4808 /* LoginCoordinator.swift */,
+				8472F6662A84D54C00E381C2 /* LoginViewController.swift */,
 			);
 			path = LoginScreen;
 			sourceTree = "<group>";
@@ -149,6 +148,7 @@
 			children = (
 				84BC148F2A891E6E00CF4808 /* User.swift */,
 				84BC149D2A89757A00CF4808 /* Account.swift */,
+				84B5697B2A9B784500E80973 /* UserManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";

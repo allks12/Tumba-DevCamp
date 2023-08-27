@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import Foundation
 
 class MainViewController: UIViewController {
     private let coordinator: AppCoordinator
-    private var accounts: [Account] = [ /* Account(name: "Mine", type: "card", balance: 700),
+    private var accounts: [Account] = [/* Account(name: "Mine", type: "card", balance: 700),
                                        Account(name: "House", type: "credit", balance: 10000),
-                                       Account(name: "Car", type: "credit", balance: 2000) */ ]
+                                       Account(name: "Car", type: "credit", balance: 2000) */]
     
     private var tableView: UITableView!
     private let cellIdetifier = "account"
@@ -38,38 +39,12 @@ class MainViewController: UIViewController {
                     email: email,
                     password: password)
     }()
-    
-    private var welcomeAccountStack: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = 16
-        return stackView
-    }()
-    
-    private var welcomeLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
-    }()
-    
-    private var accountButton: UIButton = {
-        let button = UIButton()
-        var btnConfig = UIButton.Configuration.filled()
-        button.setTitle("New Account", for: .normal)
-        btnConfig.cornerStyle = .dynamic
-        button.configuration = btnConfig
-        return button
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
-        
         setBarButtonItems()
-        configureTableView()
-        setWelcomeAccountStack()
+        setUpTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,9 +61,7 @@ class MainViewController: UIViewController {
                            email: email,
                            password: password)
         tableView.reloadData()
-        setWelcomeAccountStack()
         setBarButtonItems()
-        setNewAccountButton()
     }
     
     private func setBarButtonItems() {
@@ -116,54 +89,50 @@ class MainViewController: UIViewController {
                                                                 primaryAction: registrationAction)
             return
         }
-        navigationItem.rightBarButtonItem = nil
+        let createAccountAction = UIAction(handler: didTapNewAccountButton)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New Account",
+                                                            primaryAction: createAccountAction)
     }
     
-    private func setUpWelcomeLabel() {
+    private func setUpTableView() {
+        configureTableView()
+        view.addSubview(tableView)
+        addTableViewConstraints()
+    }
+    
+    private func setUpWelcomeLabel() -> UILabel {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 25)
+        label.numberOfLines = 0
+        
         guard currentUser != nil,
-        let firstName = currentUser?.firstName else{
-            welcomeLabel.text = "Welcome new user! Please log in or register!"
-            return
+              let firstName = currentUser?.firstName else {
+                label.text = "Welcome!"
+                return label
         }
         
-        welcomeLabel.text = "Welcome \(firstName)!"
+        label.text = "Hello, \(firstName)!"
+        return label
     }
     
-    private func setNewAccountButton() {
-        let newAccountAction = UIAction(handler: didTapNewAccountButton)
-        accountButton.addAction(newAccountAction, for: .touchUpInside)
-    }
-    
-    private func setWelcomeAccountStack() {
-        view.addSubview(welcomeAccountStack)
-        setUpWelcomeLabel()
-        welcomeAccountStack.addArrangedSubview(welcomeLabel)
-        
-        if currentUser != nil {
-            welcomeAccountStack.addArrangedSubview(accountButton)
-        }
-        
-        welcomeAccountStack.addArrangedSubview(tableView)
-        addWelcomeAccountStackConstraints()
-    }
-    
-    private func addWelcomeAccountStackConstraints() {
+    private func addTableViewConstraints() {
         view.addConstraints([
-            welcomeAccountStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                                     constant: 16),
-            welcomeAccountStack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                                                         constant: 16),
-            welcomeAccountStack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,                                                   constant: -16),
-            tableView.heightAnchor.constraint(equalToConstant: 500)
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,                                 constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                                constant: -16),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                                           constant: 20),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                                              constant: 20)
         ])
     }
     
     private func configureTableView() {
-        var tableView = UITableView(frame: view.bounds, style: .insetGrouped)
+        let tableView = UITableView(frame: view.bounds, style: .insetGrouped)
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdetifier)
         tableView.dataSource = self
-        
+        tableView.delegate = self
         self.tableView = tableView
     }
     
@@ -184,8 +153,6 @@ class MainViewController: UIViewController {
         UserDefaults.standard.set(nil, forKey: "email")
         UserDefaults.standard.set(nil, forKey: "password")
         setBarButtonItems()
-        setUpWelcomeLabel()
-        accountButton.removeFromSuperview()
     }
     
     private func didTapRegister(_ action: UIAction) {
@@ -236,14 +203,23 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var account = accounts[indexPath.row]
-        var cell = tableView.dequeueReusableCell(withIdentifier: cellIdetifier, for: indexPath)
+        let account = accounts[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdetifier, for: indexPath)
         
         var content = cell.defaultContentConfiguration()
         content.text = account.name
         cell.contentConfiguration = content
         
         return cell
+    }
+}
+
+extension MainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard section == 0 else {
+            return nil
+        }
+        return setUpWelcomeLabel()
     }
 }
 

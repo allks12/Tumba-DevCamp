@@ -15,6 +15,7 @@ class LoginViewController: UIViewController {
     
     weak var delegate: LoginDelegate?
     private let coordinator: LoginCoordinator
+    private let viewModel = UserAuthenticationViewModel()
     
     init(coordinator: LoginCoordinator, delegate: LoginDelegate?) {
         self.coordinator = coordinator
@@ -31,6 +32,8 @@ class LoginViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 16
+        stackView.distribution = .fill
+        stackView.alignment = .fill
         return stackView
     }()
     
@@ -43,19 +46,27 @@ class LoginViewController: UIViewController {
         return label
     }()
     
-    private var emailTextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "Enter Email"
+    private var emailTextField: RoundedValidatedTextField = {
+        let textField = RoundedValidatedTextField()
+        textField.title = "Email*"
+        textField.autocorrectionType = .no
         return textField
     }()
     
-    private var passwordTextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "Enter Password"
+    private var passwordTextField: RoundedValidatedTextField = {
+        let textField = RoundedValidatedTextField()
+        textField.title = "Password*"
         textField.isSecureTextEntry = true
         return textField
+    }()
+    
+    private var unexistingUserLabel: UILabel = {
+        let label = UILabel()
+        label.text = " "
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = .systemRed
+        return label
     }()
     
     private var submitButton = {
@@ -93,6 +104,7 @@ class LoginViewController: UIViewController {
         stackView.addArrangedSubview(loginLabel)
         stackView.addArrangedSubview(emailTextField)
         stackView.addArrangedSubview(passwordTextField)
+        stackView.addArrangedSubview(unexistingUserLabel)
         stackView.addArrangedSubview(submitButton)
     }
     
@@ -112,32 +124,14 @@ class LoginViewController: UIViewController {
     }
     
     private func didTapSubmit(_ action: UIAction) {
-        guard var users:[[String : String]] = UserDefaults.standard.object(forKey: "users") as? [[String : String]] else {
+        
+        guard let currentUser = viewModel.login(emailField: emailTextField,
+                                                passwordField: passwordTextField,
+                                                unexistingUserLabel: unexistingUserLabel) else {
             return
         }
         
-        let logedUser = users.first { user in
-            user["email"] == emailTextField.text && user["password"] == passwordTextField.text
-        }
-        
-        
-        guard let user = logedUser else {
-            print("here")
-            return
-        }
-        
-        guard let firstName = user["firstName"],
-              let lastName = user["lastName"],
-              let email = user["email"],
-              let password = user["password"] else {
-            print("see here")
-            return
-        }
-        
-        delegate?.logUserIn(User(firstName: firstName,
-                                 lastName: lastName,
-                                 email: email,
-                                 password: password))
+        delegate?.logUserIn(currentUser)
         dismiss(animated: true)
     }
 

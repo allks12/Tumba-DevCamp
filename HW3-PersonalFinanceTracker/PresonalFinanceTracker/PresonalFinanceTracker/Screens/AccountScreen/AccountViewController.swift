@@ -13,6 +13,8 @@ protocol AccountDelegate: AnyObject {
 
 class AccountViewController: UIViewController {
     private let coordinator: AccountCoordinator
+    private let viewModel = AccountViewModel()
+    private var selectedType: AccountType?
     weak var delegate: AccountDelegate?
     
     init(coordinator: AccountCoordinator, delegate: AccountDelegate) {
@@ -42,24 +44,28 @@ class AccountViewController: UIViewController {
         return label
     }()
     
-    private var nameTextField: UITextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "Enter Name of Account"
+    private var nameTextField: RoundedValidatedTextField = {
+        let textField = RoundedValidatedTextField()
+        textField.title = "Name of Account"
         return textField
     }()
     
-    private var typeTextField: UITextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "Enter Type of Account"
+    private var typeTextField: RoundedValidatedTextField = {
+        let textField = RoundedValidatedTextField()
+        textField.title = "Type of Account"
         return textField
     }()
     
-    private var balanceTextField: UITextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "Enter Balance of Account"
+    private var typePickerView: UIPickerView = {
+        let picker = UIPickerView()
+        picker.translatesAutoresizingMaskIntoConstraints = false
+        return picker
+    }()
+    
+    private var balanceTextField: RoundedValidatedTextField = {
+        let textField = RoundedValidatedTextField()
+        textField.title = "Balance of Account"
+        textField.keyboardType = .decimalPad
         return textField
     }()
     
@@ -90,16 +96,22 @@ class AccountViewController: UIViewController {
         submitButton.addAction(createAction, for: .touchUpInside)
     }
     
+    private func setUpPickerView() {
+        typePickerView.dataSource = self
+        typePickerView.delegate = self
+    }
+    
     private func setUpFormStack() {
         view.addSubview(formStack)
+        setCreateAccountButton()
+        setUpPickerView()
         
         formStack.addArrangedSubview(createAccountLabel)
+        formStack.addArrangedSubview(typePickerView)
         formStack.addArrangedSubview(nameTextField)
-        formStack.addArrangedSubview(typeTextField)
         formStack.addArrangedSubview(balanceTextField)
         formStack.addArrangedSubview(submitButton)
         
-        setCreateAccountButton()
         addFormStackConstraints()
     }
     
@@ -110,7 +122,10 @@ class AccountViewController: UIViewController {
             formStack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                                                constant: -16),
             formStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                          constant: 16)
+                                          constant: 16),
+            
+            typePickerView.heightAnchor.constraint(
+                            equalToConstant: typePickerView.intrinsicContentSize.height / 2.5)
         ])
     }
     
@@ -119,32 +134,40 @@ class AccountViewController: UIViewController {
     }
     
     private func didTapCreateAccount(_ action: UIAction) {
-        guard let name = nameTextField.text,
-              name != "" else {
-            nameTextField.attributedPlaceholder = NSAttributedString(string: "Name can't be empty",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+        guard let newAccount = viewModel.createAccount(nameField: nameTextField,
+                                                       accountType: selectedType!,
+                                                       balanceField: balanceTextField) else {
             return
         }
         
-        guard let type = typeTextField.text,
-              type != "" else {
-            typeTextField.attributedPlaceholder = NSAttributedString(string: "Type can't be empty",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-            return
-        }
-        
-        guard let balance = balanceTextField.text,
-              balance != "" else {
-            balanceTextField.attributedPlaceholder = NSAttributedString(string: "Balance can't be empty",
-                                                                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-            return
-        }
-        
-        delegate?.saveNewAccount(Account(name: name,
-                                         type: type,
-                                         balance: Int(balance) ?? 0))
-        
+        delegate?.saveNewAccount(newAccount)
         dismiss(animated: true)
     }
     
+}
+
+extension AccountViewController: UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        AccountType.allCases.count
+    }
+}
+
+extension AccountViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView,
+                    titleForRow row: Int,
+                    forComponent component: Int) -> String? {
+           return AccountType.allCases[row].rawValue
+       }
+    
+    func pickerView(_ pickerView: UIPickerView,
+                    didSelectRow row: Int,
+                    inComponent component: Int) {
+            let selected = AccountType.allCases[row]
+        selectedType = selected
+        }
 }

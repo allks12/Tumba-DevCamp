@@ -13,6 +13,8 @@ protocol RegistrationDelegate: AnyObject {
 
 class RegistrationViewController: UIViewController {
     private let coordinator: RegistrationCoordinator
+    private let viewModel = UserAuthenticationViewModel()
+    private var textFields: [RoundedValidatedTextField] = []
     weak var delegate: RegistrationDelegate?
     
     init(coordinator: RegistrationCoordinator,
@@ -30,7 +32,9 @@ class RegistrationViewController: UIViewController {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 16
+        stackView.spacing = 10
+        stackView.distribution = .fill
+        stackView.alignment = .fill
         return stackView
     }()
     
@@ -43,33 +47,39 @@ class RegistrationViewController: UIViewController {
         return label
     }()
     
-    private var firstNameTextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "Enter First Name *"
-        return textField
+    private var firstNameTextField: RoundedValidatedTextField = {
+        let field = RoundedValidatedTextField()
+        field.title = "First Name*"
+        return field
     }()
     
-    private var lastNameTextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "Enter Last Name"
-        return textField
+    private var lastNameTextField: RoundedValidatedTextField = {
+        let field = RoundedValidatedTextField()
+        field.title = "Last Name"
+        return field
     }()
     
-    private var emailTextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "Enter Email *"
-        return textField
+    private var emailTextField: RoundedValidatedTextField = {
+        let field = RoundedValidatedTextField()
+        field.title = "Email*"
+        field.autocorrectionType = .no
+        return field
     }()
     
     private var passwordTextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "Enter Password *"
-        textField.isSecureTextEntry = true
-        return textField
+        var field = RoundedValidatedTextField()
+        field.isSecureTextEntry = true
+        field.autocorrectionType = .no
+        field.title = "Password*"
+        return field
+    }()
+    
+    private var confirmPasswordTextField = {
+        var field = RoundedValidatedTextField()
+        field.isSecureTextEntry = true
+        field.title = "Confirm Password*"
+        field.autocorrectionType = .no
+        return field
     }()
     
     private var submitButton = {
@@ -83,6 +93,7 @@ class RegistrationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .systemGray6
         setUpDismissButton()
         addSubviewsToFormStack()
@@ -108,6 +119,7 @@ class RegistrationViewController: UIViewController {
         formStack.addArrangedSubview(lastNameTextField)
         formStack.addArrangedSubview(emailTextField)
         formStack.addArrangedSubview(passwordTextField)
+        formStack.addArrangedSubview(confirmPasswordTextField)
         formStack.addArrangedSubview(submitButton)
     }
     
@@ -128,47 +140,26 @@ class RegistrationViewController: UIViewController {
     }
     
     private func didTapSubmit(_ action: UIAction) {
-        guard let firstName = firstNameTextField.text,
-              checkTextFields(field: firstNameTextField, fieldType: "First Name") else {
+        guard let user = viewModel.register(firstNameField: firstNameTextField,
+                                            lastNameField: lastNameTextField,
+                                            emailField: emailTextField,
+                                            passwordField: passwordTextField,
+                                            confirmPasswordField: confirmPasswordTextField) else {
             return
         }
         
-        guard let email = emailTextField.text,
-              checkTextFields(field: firstNameTextField, fieldType: "First Name") else {
-            return
-        }
+        saveUsersInDefaults(firstName: user.firstName,
+                            lastName: user.lastName,
+                            email: user.email,
+                            password: user.password)
         
-        guard let password = passwordTextField.text,
-              checkTextFields(field: passwordTextField, fieldType: "Password") else {
-            return
-        }
-        
-        let lastName = lastNameTextField.text ?? "not entered"
-        
-        saveCurrentUserInDefaults(firstName: firstName,
-                                  lastName: lastName,
-                                  email: email,
-                                  password: password)
-        
-        delegate?.saveCurrentUser(registeredUser: User(firstName: firstName,
-                                                       lastName: lastName,
-                                                       email: email,
-                                                       password: password))
+        delegate?.saveCurrentUser(registeredUser: user)
         
         dismiss(animated: true)
         
     }
     
-    private func checkTextFields(field: UITextField, fieldType: String) -> Bool {
-        guard field.text != "" else {
-            field.attributedPlaceholder = NSAttributedString(string: "\(fieldType) can't be empty",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-            return false
-        }
-        return true
-    }
-    
-    private func saveCurrentUserInDefaults(firstName: String,
+    private func saveUsersInDefaults(firstName: String,
                                            lastName: String,
                                            email: String,
                                            password: String) {
@@ -179,13 +170,27 @@ class RegistrationViewController: UIViewController {
                     "password": password]
         
         guard var users:[[String: String]] = UserDefaults.standard.object(forKey: "users") as? [[String : String]] else {
-            UserDefaults.standard.set(user, forKey: "users")
+            UserDefaults.standard.set([user], forKey: "users")
+            saveCurrentUser(firstName: firstName,
+                            lastName: lastName,
+                            email: email,
+                            password: password)
             return
         }
         
         users.append(user)
         
         UserDefaults.standard.set(users, forKey: "users")
+        saveCurrentUser(firstName: firstName,
+                        lastName: lastName,
+                        email: email,
+                        password: password)
+    }
+    
+    private func saveCurrentUser(firstName: String,
+                                 lastName: String,
+                                 email: String,
+                                 password: String) {
         UserDefaults.standard.set(firstName, forKey: "firstName")
         UserDefaults.standard.set(lastName, forKey: "lastName")
         UserDefaults.standard.set(email, forKey: "email")

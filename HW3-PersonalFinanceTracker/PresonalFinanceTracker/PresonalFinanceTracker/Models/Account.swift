@@ -8,8 +8,14 @@
 import Foundation
 import UIKit
 
-struct Account {
+struct Account: Codable {
     var name: String
-    var type: String
-    var balance: Int
+    var type: AccountType
+    var balance: Double
+}
+
+enum AccountType: String, CaseIterable, Codable {
+        case debit = "Debit"
+        case credit = "Credit"
+        case wallet = "Wallet"
 }

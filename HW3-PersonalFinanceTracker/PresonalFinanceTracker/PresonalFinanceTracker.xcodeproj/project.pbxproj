@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		844EA7E52A8A267500D0FA5A /* RoundedValidatedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844EA7E42A8A267500D0FA5A /* RoundedValidatedTextField.swift */; };
+		844EA7E72A8D174400D0FA5A /* UserAuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844EA7E62A8D174400D0FA5A /* UserAuthenticationViewModel.swift */; };
+		845DCF252A9354C000F8ED79 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845DCF242A9354C000F8ED79 /* AccountViewModel.swift */; };
 		8472F6502A84CC7400E381C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8472F64F2A84CC7400E381C2 /* AppDelegate.swift */; };
 		8472F6522A84CC7400E381C2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8472F6512A84CC7400E381C2 /* SceneDelegate.swift */; };
 		8472F6542A84CC7400E381C2 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8472F6532A84CC7400E381C2 /* MainViewController.swift */; };
 		8472F6592A84CC7700E381C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8472F6582A84CC7700E381C2 /* Assets.xcassets */; };
 		8472F65C2A84CC7700E381C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8472F65A2A84CC7700E381C2 /* LaunchScreen.storyboard */; };
 		8472F6672A84D54C00E381C2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8472F6662A84D54C00E381C2 /* LoginViewController.swift */; };
+		84B5697C2A9B784500E80973 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B5697B2A9B784500E80973 /* UserManager.swift */; };
 		84BC14852A89063300CF4808 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC14842A89063300CF4808 /* Coordinator.swift */; };
 		84BC14872A8907D700CF4808 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC14862A8907D700CF4808 /* BaseCoordinator.swift */; };
 		84BC14892A8908B700CF4808 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC14882A8908B700CF4808 /* AppCoordinator.swift */; };
@@ -26,6 +30,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		844EA7E42A8A267500D0FA5A /* RoundedValidatedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedValidatedTextField.swift; sourceTree = "<group>"; };
+		844EA7E62A8D174400D0FA5A /* UserAuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthenticationViewModel.swift; sourceTree = "<group>"; };
+		845DCF242A9354C000F8ED79 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		8472F64C2A84CC7400E381C2 /* PresonalFinanceTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PresonalFinanceTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8472F64F2A84CC7400E381C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8472F6512A84CC7400E381C2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -34,6 +41,7 @@
 		8472F65B2A84CC7700E381C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8472F65D2A84CC7700E381C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8472F6662A84D54C00E381C2 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		84B5697B2A9B784500E80973 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		84BC14842A89063300CF4808 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		84BC14862A8907D700CF4808 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		84BC14882A8908B700CF4808 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
@@ -57,6 +65,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		844EA7E32A8A265800D0FA5A /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				844EA7E42A8A267500D0FA5A /* RoundedValidatedTextField.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		8472F6432A84CC7400E381C2 = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +92,7 @@
 		8472F64E2A84CC7400E381C2 /* PresonalFinanceTracker */ = {
 			isa = PBXGroup;
 			children = (
+				844EA7E32A8A265800D0FA5A /* Components */,
 				84BC148E2A891E5900CF4808 /* Models */,
 				84BC14832A89060F00CF4808 /* Coordinators */,
 				8472F6632A84D05700E381C2 /* Screens */,
@@ -84,6 +101,7 @@
 				8472F6582A84CC7700E381C2 /* Assets.xcassets */,
 				8472F65A2A84CC7700E381C2 /* LaunchScreen.storyboard */,
 				8472F65D2A84CC7700E381C2 /* Info.plist */,
+				84B5697B2A9B784500E80973 /* UserManager.swift */,
 			);
 			path = PresonalFinanceTracker;
 			sourceTree = "<group>";
@@ -140,6 +158,7 @@
 			children = (
 				84BC14922A8921EB00CF4808 /* RegistrationCoordinator.swift */,
 				84BC14942A89222500CF4808 /* RegistrationViewController.swift */,
+				844EA7E62A8D174400D0FA5A /* UserAuthenticationViewModel.swift */,
 			);
 			path = RegistrationScreen;
 			sourceTree = "<group>";
@@ -149,6 +168,7 @@
 			children = (
 				84BC14972A89686C00CF4808 /* AccountViewController.swift */,
 				84BC149B2A8969A200CF4808 /* AccountCoordinator.swift */,
+				845DCF242A9354C000F8ED79 /* AccountViewModel.swift */,
 			);
 			path = AccountScreen;
 			sourceTree = "<group>";
@@ -231,11 +251,15 @@
 				84BC149C2A8969A200CF4808 /* AccountCoordinator.swift in Sources */,
 				84BC14932A8921EB00CF4808 /* RegistrationCoordinator.swift in Sources */,
 				84BC14852A89063300CF4808 /* Coordinator.swift in Sources */,
+				844EA7E52A8A267500D0FA5A /* RoundedValidatedTextField.swift in Sources */,
 				8472F6502A84CC7400E381C2 /* AppDelegate.swift in Sources */,
 				84BC14902A891E6E00CF4808 /* User.swift in Sources */,
 				8472F6522A84CC7400E381C2 /* SceneDelegate.swift in Sources */,
 				84BC148D2A89146600CF4808 /* LoginCoordinator.swift in Sources */,
+				844EA7E72A8D174400D0FA5A /* UserAuthenticationViewModel.swift in Sources */,
 				84BC14892A8908B700CF4808 /* AppCoordinator.swift in Sources */,
+				84B5697C2A9B784500E80973 /* UserManager.swift in Sources */,
+				845DCF252A9354C000F8ED79 /* AccountViewModel.swift in Sources */,
 				84BC149E2A89757A00CF4808 /* Account.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

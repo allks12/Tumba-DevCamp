@@ -17,6 +17,8 @@
 		8472F65C2A84CC7700E381C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8472F65A2A84CC7700E381C2 /* LaunchScreen.storyboard */; };
 		8472F6672A84D54C00E381C2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8472F6662A84D54C00E381C2 /* LoginViewController.swift */; };
 		84B5697C2A9B784500E80973 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B5697B2A9B784500E80973 /* UserManager.swift */; };
+		84B5697F2A9BD0B400E80973 /* AccountDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B5697E2A9BD0B400E80973 /* AccountDetailsViewController.swift */; };
+		84B569812A9BD0E000E80973 /* AccountDetailsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B569802A9BD0E000E80973 /* AccountDetailsCoordinator.swift */; };
 		84BC14852A89063300CF4808 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC14842A89063300CF4808 /* Coordinator.swift */; };
 		84BC14872A8907D700CF4808 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC14862A8907D700CF4808 /* BaseCoordinator.swift */; };
 		84BC14892A8908B700CF4808 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC14882A8908B700CF4808 /* AppCoordinator.swift */; };
@@ -42,6 +44,8 @@
 		8472F65D2A84CC7700E381C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8472F6662A84D54C00E381C2 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		84B5697B2A9B784500E80973 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		84B5697E2A9BD0B400E80973 /* AccountDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailsViewController.swift; sourceTree = "<group>"; };
+		84B569802A9BD0E000E80973 /* AccountDetailsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailsCoordinator.swift; sourceTree = "<group>"; };
 		84BC14842A89063300CF4808 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		84BC14862A8907D700CF4808 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		84BC14882A8908B700CF4808 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
@@ -112,6 +116,7 @@
 				84BC14912A8921C700CF4808 /* RegistrationScreen */,
 				8472F6652A84D51E00E381C2 /* LoginScreen */,
 				84BC14962A89684A00CF4808 /* AccountScreen */,
+				84B5697D2A9BD04A00E80973 /* AccountDetailsScreen */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -132,6 +137,15 @@
 				8472F6662A84D54C00E381C2 /* LoginViewController.swift */,
 			);
 			path = LoginScreen;
+			sourceTree = "<group>";
+		};
+		84B5697D2A9BD04A00E80973 /* AccountDetailsScreen */ = {
+			isa = PBXGroup;
+			children = (
+				84B5697E2A9BD0B400E80973 /* AccountDetailsViewController.swift */,
+				84B569802A9BD0E000E80973 /* AccountDetailsCoordinator.swift */,
+			);
+			path = AccountDetailsScreen;
 			sourceTree = "<group>";
 		};
 		84BC14832A89060F00CF4808 /* Coordinators */ = {
@@ -244,6 +258,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8472F6672A84D54C00E381C2 /* LoginViewController.swift in Sources */,
+				84B569812A9BD0E000E80973 /* AccountDetailsCoordinator.swift in Sources */,
 				84BC14872A8907D700CF4808 /* BaseCoordinator.swift in Sources */,
 				84BC14982A89686C00CF4808 /* AccountViewController.swift in Sources */,
 				8472F6542A84CC7400E381C2 /* MainViewController.swift in Sources */,
@@ -253,6 +268,7 @@
 				84BC14852A89063300CF4808 /* Coordinator.swift in Sources */,
 				844EA7E52A8A267500D0FA5A /* RoundedValidatedTextField.swift in Sources */,
 				8472F6502A84CC7400E381C2 /* AppDelegate.swift in Sources */,
+				84B5697F2A9BD0B400E80973 /* AccountDetailsViewController.swift in Sources */,
 				84BC14902A891E6E00CF4808 /* User.swift in Sources */,
 				8472F6522A84CC7400E381C2 /* SceneDelegate.swift in Sources */,
 				84BC148D2A89146600CF4808 /* LoginCoordinator.swift in Sources */,

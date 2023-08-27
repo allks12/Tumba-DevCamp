@@ -22,4 +22,12 @@ class AppCoordinator: Coordinator {
         let mainVC = MainViewController(coordinator: self)
         navigationController.pushViewController(mainVC, animated: true)
     }
+
+    func loadDetails(for accountIndex: Int) {
+        let coordinator = AccountDetailsCoordinator(parentCoordinator: self,
+                                                    navigationController: navigationController)
+        coordinator.index = accountIndex
+        addChild(child: coordinator)
+        coordinator.start()
+    }
 }

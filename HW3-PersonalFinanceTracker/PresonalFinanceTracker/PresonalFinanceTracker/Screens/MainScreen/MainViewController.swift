@@ -161,5 +161,9 @@ extension MainViewController: UITableViewDelegate {
         }
         return setUpWelcomeLabel()
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        coordinator.loadDetails(for: indexPath.row)
+    }
 }
 

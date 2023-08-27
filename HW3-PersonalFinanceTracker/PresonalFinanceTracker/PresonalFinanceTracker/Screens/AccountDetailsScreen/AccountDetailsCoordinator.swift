@@ -17,4 +17,12 @@ class AccountDetailsCoordinator: BaseCoordinator {
         let detailsVC = AccountDetailsViewController(for: index, coordinator: self)
         navigationController.pushViewController(detailsVC, animated: true)
     }
+
+    func navigateToExpenseAddition(for accountIndex: Int) {
+        let coordinator = CreateExpenseCoordinator(parentCoordinator: self,
+                                                   navigationController: navigationController)
+        coordinator.index = index
+        addChild(child: coordinator)
+        coordinator.start()
+    }
 }

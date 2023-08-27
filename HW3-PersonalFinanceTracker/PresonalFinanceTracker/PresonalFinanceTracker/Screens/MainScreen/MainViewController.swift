@@ -100,7 +100,7 @@ class MainViewController: UIViewController {
     private func configureTableView() {
         let tableView = UITableView(frame: view.bounds, style: .insetGrouped)
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdetifier)
+        tableView.register(AccountTableViewCell.self, forCellReuseIdentifier: cellIdetifier)
         tableView.dataSource = self
         tableView.delegate = self
         self.tableView = tableView
@@ -144,12 +144,12 @@ extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let account = UserManager.shared.currentUser?.accounts[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdetifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdetifier, for: indexPath) as! AccountTableViewCell
         
-        var content = cell.defaultContentConfiguration()
-        content.text = account?.name
-        cell.contentConfiguration = content
-        
+        cell.name.text = account?.name
+        cell.balance.text = "\(account?.currentBalance ?? 0)"
+        cell.type.text = account?.type.rawValue
+
         return cell
     }
 }
